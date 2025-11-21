@@ -29,6 +29,28 @@ jobs:
           npm install
           npm run build
 
+      - name: 🔐 Install Code Signing Certificate
+        if: secrets.WIN_CERT_PFX != '' && secrets.WIN_CERT_PASSWORD !=
+        shell: pwsh
+        env:
+          WIN_CERT_PFX: ${{ secrets.WIN_CERT_PFX }}
+          WIN_CERT_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
+        run: |
+          # Decode Base64 PFX
+          $pfxBytes = [Convert]::FromBase64String($env:WIN_CERT_PFX)
+          $pfxPath = Join-Path $env:TEMP "code-signing.pfx"
+          [IO.File]::WriteAllBytes($pfxPath, $pfxBytes)
+
+          # Import to Current User certificate store
+          $securePassword = ConvertTo-SecureString -String $env:WIN_CERT_PASSWORD -AsPlainText -Force
+          Import-PfxCertificate -FilePath $pfxPath -CertStoreLocation Cert:\CurrentUser\My -Password $securePassword -Exportable > $null
+
+          # Clean up
+          Remove-Item $pfxPath
+
+          # Optional: List certificates for debugging (remove in production)
+          Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object { $_.Subject -like "*Glass Dev*" } | Format-List *
+
       - name: 🖥️ Build Electron app
         # Run Electron build script from root directory
         run: npm run build
