@@ -52,7 +52,7 @@ jobs:
         env:
           CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
         # Run Electron build script from root directory
-        run: npm run build:win
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
