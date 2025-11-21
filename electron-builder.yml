@@ -47,7 +47,7 @@ win:
           arch: x64
     requestedExecutionLevel: asInvoker
     signAndEditExecutable: true
-    sign: false
+    forceCodeSigning: false
 
 # NSIS installer configuration for Windows
 nsis:
