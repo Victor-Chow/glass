@@ -36,6 +36,13 @@ jobs:
         # Run Electron build script from root directory
         run: npm run build
 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: glass-installer
+          path: dist/**.exe
+          if-no-files-found: error
+
       - name: 🚨 Send failure notification to Slack
         if: failure()
         uses: rtCamp/action-slack-notify@v2
