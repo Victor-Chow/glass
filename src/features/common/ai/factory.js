@@ -29,6 +29,17 @@ const PROVIDERS = {
       ],
   },
 
+  'posong': {
+      name: 'Posong',
+      handler: () => require("./providers/posong"),
+      llmModels: [
+          { id: 'glm-4.5-air', name: 'glm-4.5-air' },
+      ],
+      sttModels: [
+          { id: 'gpt-4o-mini-transcribe', name: 'GPT-4o Mini Transcribe' }
+      ],
+  },
+
   'openai-glass': {
       name: 'OpenAI (Glass)',
       handler: () => require("./providers/openai"),
