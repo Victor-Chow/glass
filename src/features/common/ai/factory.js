@@ -33,10 +33,10 @@ const PROVIDERS = {
       name: 'Posong',
       handler: () => require("./providers/posong"),
       llmModels: [
-          { id: 'glm-4.5-air', name: 'glm-4.5-air' },
+          { id: 'qwen3-vl-30b-a3b-instruct-vision', name: 'qwen3-vl-30b-a3b-instruct-vision' },
       ],
       sttModels: [
-          { id: 'gpt-4o-mini-transcribe', name: 'GPT-4o Mini Transcribe' }
+          { id: 'qwen2.5-omni', name: 'qwen2.5-omni' }
       ],
   },
 
