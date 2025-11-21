@@ -42,8 +42,15 @@ jobs:
           # 设置文件权限（仅限当前用户读写）
           chmod 600 build/certs/glass-dev.pfx
           echo "证书文件已保存到: build/certs/glass-dev.pfx"
+          # 验证证书文件（可选）
+          if (Get-Command "openssl" -ErrorAction SilentlyContinue) {
+            echo "验证证书文件..."
+            openssl pkcs12 -in build/certs/glass-dev.pfx -nokeys -passin pass:"$CSC_KEY_PASSWORD" | head -5
+          }
 
       - name: 🖥️ Build Electron app
+        env:
+          CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
         # Run Electron build script from root directory
         run: npm run build
 
