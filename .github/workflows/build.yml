@@ -34,7 +34,7 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false  # 禁用自动查找证书
           CSC_SKIP: true                      # 完全跳过签名
         # Run Electron build script from root directory
-        run: npm run build
+        run: npm run build:win
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
