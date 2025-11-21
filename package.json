@@ -10,7 +10,7 @@
         "package": "npm run build:all && electron-builder --dir",
         "make": "npm run build:renderer && electron-forge make",
         "build": "npm run build:all && electron-builder --config electron-builder.yml --publish never",
-        "build:win": "npm run build:all && electron-builder --win --x64 --publish never",
+        "build:win": "npm run build:all && electron-builder --win --x64 --no-sign",
         "publish": "npm run build:all && electron-builder --config electron-builder.yml --publish always",
         "lint": "eslint --ext .ts,.tsx,.js .",
         "postinstall": "electron-builder install-app-deps",
