@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     # Currently runs on macOS only, can add windows-latest later
-    runs-on: macos-latest
+    runs-on: windows-latest
 
     steps:
       - name: 🚚 Checkout code
