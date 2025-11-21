@@ -29,12 +29,28 @@ jobs:
           npm install
           npm run build
 
-      - name: 🖥️ Build Electron app
+      - name: 🔐 Setup Code Signing Certificate
+        if: env.CSC_LINK != ''
         env:
-          CSC_IDENTITY_AUTO_DISCOVERY: false  # 禁用自动查找证书
-          CSC_SKIP: true                      # 完全跳过签名
+          CSC_LINK: ${{ secrets.WIN_CERT_PFX }}
+          CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
+        run: |
+          # 创建证书目录
+          mkdir -p build/certs
+          # 将 base64 编码的证书内容保存为文件
+          echo "$CSC_LINK" | base64 -d > build/certs/glass-dev.pfx
+          # 设置文件权限（仅限当前用户读写）
+          chmod 600 build/certs/glass-dev.pfx
+          echo "证书文件已保存到: build/certs/glass-dev.pfx"
+          # 验证证书文件（可选）
+          if command -v openssl &> /dev/null; then
+            echo "验证证书文件..."
+            openssl pkcs12 -in build/certs/glass-dev.pfx -nokeys -passin pass:"$CSC_KEY_PASSWORD" | head -5
+          fi
+
+      - name: 🖥️ Build Electron app
         # Run Electron build script from root directory
-        run: npm run build:win
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
