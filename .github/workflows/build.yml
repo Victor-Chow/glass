@@ -30,7 +30,7 @@ jobs:
           npm run build
 
       - name: 🔐 Install Code Signing Certificate
-        if: secrets.WIN_CERT_PFX != '' && secrets.WIN_CERT_PASSWORD !=
+        if: ${{ secrets.WIN_CERT_PFX != null && secrets.WIN_CERT_PASSWORD != null }}
         shell: pwsh
         env:
           WIN_CERT_PFX: ${{ secrets.WIN_CERT_PFX }}
